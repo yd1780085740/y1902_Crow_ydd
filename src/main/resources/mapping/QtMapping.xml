@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.j1902.mapper.QtMapper">
+    <sql id="all">
+        id,
+        username,
+        password,
+        Email,
+        idnumber,
+        yhname
+    </sql>
+    <!--查询全部用户-->
+    <select id="denglu" resultType="com.qf.j1902.pojo.User">
+        SELECT
+          <include refid="all"/>
+        FROM
+          users
+    </select>
+    <!--根据用户名称和密码查询用户-->
+    <select id="findOne" parameterType="HashMap" resultType="com.qf.j1902.pojo.User">
+        SELECT
+          <include refid="all"/>
+        FROM
+          users
+        WHERE username=#{username} AND password=#{password}
+    </select>
+    <!--注册用户-->
+    <insert id="add" parameterType="String" >
+        INSERT INTO
+          users(username,password,Email,idnumber)
+        VALUE (#{username},#{password},#{email},#{idnumber})
+    </insert>
+    <!--上传认证信息-->
+    <insert id="addRz" parameterType="UserInfo">
+        INSERT INTO
+          renzheng(classify,uname,idcard,phonenumb,photo,Email)
+        VALUE (#{classify},#{uname},#{idcard},#{phonenumb},#{photo},#{Email})
+    </insert>
+    <!--根据用户查询认证状态-->
+    <select id="getmessageByname" parameterType="String" resultType="String">
+        SELECT ZT FROM renzheng WHERE uname=#{uname}
+    </select>
+</mapper>

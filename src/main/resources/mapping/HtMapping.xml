@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.qf.j1902.mapper.HtMapper">
+    <sql id="sql">
+        id,
+        username,
+        password,
+        Email,
+        idnumber,
+        yhname
+    </sql>
+    <sql id="renhzeng">
+        classify,
+        uname,
+        idcard,
+        phonenumb,
+        photo,
+        Email,
+        ZT
+    </sql>
+    <!--添加用户-->
+    <insert id="addOne" >
+        INSERT INTO
+          users(username,password,yhname,Email)
+        VALUE(#{username},#{password},#{yhname},#{email})
+    </insert>
+    <!--删除用户-->
+    <delete id="shanchu" parameterType="int">
+        DELETE FROM
+          users
+        WHERE
+          id=#{id}
+    </delete>
+    <!--根据id查询用户信息-->
+    <select id="getUserById" parameterType="int" resultType="com.qf.j1902.pojo.User">
+        SELECT
+          <include refid="sql"/>
+        FROM
+          users
+        WHERE id=#{id}
+    </select>
+    <!--根据id修改用户-->
+    <update id="update" parameterType="com.qf.j1902.pojo.User">
+        UPDATE
+          users
+        SET
+         username=#{username},yhname=#{yhname},email=#{email}
+        WHERE
+         id=#{id}
+    </update>
+    <!--查询用户认证信息-->
+    <select id="findAll" resultType="com.qf.j1902.pojo.UserInfo">
+        SELECT
+          *
+        FROM
+          renzheng
+    </select>
+    <!--根据id删除用户认证信息-->
+    <delete id="deleteOne" parameterType="int">
+        DELETE FROM renzheng WHERE id=#{id}
+    </delete>
+</mapper>

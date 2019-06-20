@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keys" content="">
+    <meta name="author" content="">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/login.css">
+	<style>
+	</style>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <div><a class="navbar-brand" href="index.html" style="font-size:32px;">千峰-创意产品众筹平台</a></div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <form class="form-signin" role="form">
+        <h2 class="form-signin-heading"><i class="glyphicon glyphicon-user"></i> 用户登录</h2>
+		  <div class="form-group has-success has-feedback">
+			<input type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录账号" autofocus>
+              <p id="zhanghao_p" style="display: none;color: red;">请输入您的登陆账号</p>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+		  </div>
+		  <div class="form-group has-success has-feedback">
+			<input type="password" class="form-control" id="inputSuccess555" placeholder="请输入登录密码" style="margin-top:10px;">
+              <p id="password_p" style="display: none;color: red;">密码不能为空</p>
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		  </div>
+		  <div class="form-group has-success has-feedback">
+			<select class="form-control" id="identity" >
+                <option value="会员">会员</option>
+                <option value="管理">管理</option>
+            </select>
+		  </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> 记住我
+          </label>
+          <br>
+          <label>
+            忘记密码
+          </label>
+          <label style="float:right">
+            <a href="reg.html">我要注册</a>
+          </label>
+        </div>
+        <a class="btn btn-lg btn-success btn-block" onclick="dologin()" > 登录</a>
+          <p id="denglu_p_2" style="display: none;color: red;">用户名或密码错误</p>
+          <p id="denglu_p_3" style="display: none;color: red;">请核实您的权限</p>
+      </form>
+    </div>
+    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script >
+
+     $("#inputSuccess4").blur(function () {
+         var un = $("#inputSuccess4").val();
+         if (un == null || un == "" || un == undefined){
+             $("#zhanghao_p").css("display","block");
+         }else {
+             $("#zhanghao_p").css("display","none");
+         }
+     });
+     $("#inputSuccess555").blur(function () {
+         var un = $("#inputSuccess555").val();
+         if (un == null || un == "" || un == undefined){
+             $("#password_p").css("display","block");
+         }else {
+             $("#password_p").css("display","none");
+         }
+     });
+    function dologin() {
+
+        var param ={};
+        param.username = $("#inputSuccess4").val();
+        param.password = $("#inputSuccess555").val();
+        param.indetity = $("#identity").val();
+       $.ajax({
+           type : "post",
+           data : param,
+           url : "/servlet",
+           success : function (result) {
+               if(result!="kong") {
+                   if(result=="qt"){
+                       window.location.href = "/member";
+                   }else if(result == "ht"){
+                       window.location.href = "/main";
+                   }else if(result == "qx"){
+                       $("#denglu_p_3").css("display","block");
+                   }
+               }else if(result=="kong"){
+                   $("#denglu_p_2").css("display","block");
+               }
+           }
+       })
+    }
+    </script>
+  </body>
+</html>
